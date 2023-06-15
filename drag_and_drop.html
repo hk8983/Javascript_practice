@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            height: 45px;
+        }
+
+        .box {
+            border: 3px solid #666;
+            background-color: #ddd;
+            border-radius: .5em;
+            padding: 10px;
+            cursor: move;
+            width: 250px;
+        }
+
+        .box.over {
+            border: 3px dotted #666;
+        }
+
+        .container-new {
+            width: 770px;
+            display: block;
+            height: 200px;
+            background: #ea9d9da8;
+            margin-top: 20px;
+            flex-direction: column;
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="div1" draggable="true" class="box">A</div>
+        <div id="div2" draggable="true" class="box">B</div>
+        <div id="div3" draggable="true" class="box">C</div>
+    </div>
+    <div id="divnew" ondrop="handleDrop(event)" ondragover="handleOver(event)" class="container-new">
+    </div>
+    <script>
+
+        function handleDragStart(e) {
+            this.style.opacity = '0.4';
+            e.dataTransfer.setData("text", e.target.id);
+        }
+        function handleDragEnd(e) {
+            this.style.margin = 'auto';
+            this.style.opacity = '1';
+        }
+        function handleOver(e) {
+            e.preventDefault();
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text");
+            e.target.appendChild(document.getElementById(data));
+        }
+        function eventBind(event) {
+            event.addEventListener('dragstart', handleDragStart, false);
+            event.addEventListener('dragend', handleDragEnd, false);
+            event.addEventListener('dragover', handleOver, false);
+            event.addEventListener('drop', handleDrop, false);
+        }
+
+        let items = document.querySelectorAll('.container .box');
+        [].forEach.call(items, function (item) {
+            eventBind(item);
+        })
+
+    </script>
+</body>
+
+</html>

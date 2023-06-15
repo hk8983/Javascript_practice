@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            margin: 0px auto;
+            padding: 0;
+            width: 500px;
+        }
+
+        ul li {
+            cursor: move;
+            display: block;
+            padding: 20px 10px;
+            background: #ffebcd96;
+            border-bottom: 1px solid green;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li draggable="true">
+            <header>Apple</header>
+        </li>
+        <li draggable="true">
+            <header>Banana</header>
+        </li>
+        <li draggable="true">
+            <header>Charry</header>
+        </li>
+        <li draggable="true">
+            <header>Orange</header>
+        </li>
+        <li draggable="true">
+            <header>Mango</header>
+        </li>
+    </ul>
+
+</body>
+
+<script>
+
+    var dragging = null;
+
+    document.addEventListener('dragstart', () => {
+        dragging = event.target;
+        event.dataTransfer.setData('text/html', dragging);
+    })
+
+    document.addEventListener('dragover', (event) => {
+        event.preventDefault();
+    })
+
+    document.addEventListener('dragenter', (event) => {
+        event.target.classList.add('border-bottom');
+    })
+
+    document.addEventListener('dragleave', (event) => {
+        event.target.classList.remove('border-bottom');
+    })
+
+    document.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.target.parentNode.insertBefore(dragging, event.target.nextSibling);
+    })
+
+
+</script>
+
+</html>

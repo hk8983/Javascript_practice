@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 350px;
+            height: 110px;
+            margin-right: 20px;
+            border: 2px solid #aaaaaa;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .box.border {
+            border-style: dashed;
+            text-align: center;
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-wrap: wrap;">
+        <h1 style="display: block; width: 100%;">Drag And Drop Functionality</h1>
+        <div class="box border" id="div1" ondrop="handleDrop(event)" ondragover="handleOver(event)">
+            <img id="img1" src="2.jpg" height="100px" draggable="true" ondragstart="handleDragStart(event)"
+                ondragend="handleDragEnd(event)" width="336" height="69" />
+        </div>
+        <div class="box" ondrop="handleDrop(event)" ondragover="handleOver(event)"></div>
+        <div class="box" ondrop="handleDrop(event)" ondragover="handleOver(event)"></div>
+    </div>
+
+    <script>
+        function handleDragStart(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function handleDragEnd(event) {
+            event.target.classList.remove('border');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(data));
+
+        }
+        function handleOver(event) {
+            event.preventDefault();
+            document.querySelector(".border").classList.remove('border');
+            event.target.classList.add('border');
+        }
+    </script>
+</body>
+
+</html>

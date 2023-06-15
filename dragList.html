@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 350px;
+            height: 110px;
+            margin-right: 20px;
+            border: 2px solid #aaaaaa;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .border {
+            border-width: 3px;
+            border-color: red;
+            box-shadow: 1px 1px 10px 2px rgba(0, 0, 0, 30%);
+        }
+
+        .border-light {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        ul {
+            min-width: 250px;
+            margin: 0 30px;
+            padding-left: 0;
+            border: 2px solid;
+            padding: 20px;
+            height: 200px;
+        }
+
+
+        li {
+            list-style-type: none;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.4s;
+            border: 1px solid darkblue;
+        }
+
+        li:hover {
+            background: gold;
+            border-color: red;
+        }
+
+        .example-dropzone {
+            min-width: 300px;
+            border: 2px solid transparent;
+            background-color: grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-wrap: wrap;">
+        <h1 style="display: block; width: 100%;">Drag And Drop List</h1>
+
+        <ul id="ul">
+            <li draggable="true">Apple</li>
+            <li draggable="true">Banana</li>
+            <li draggable="true">Mango</li>
+            <li draggable="true">Orange</li>
+        </ul>
+
+        <ul class="example-dropzone" ondrop="handleDrop(event)" ondragover="handleOver(event)">
+        </ul>
+    </div>
+
+    <script>
+        var add = 0;
+
+        function handleDragStart(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function handleDragEnd(event) {
+            event.target.classList.add('border-light');
+            document.querySelector("#ul").classList.remove('border');
+            document.querySelector(".example-dropzone").classList.remove('border');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(data));
+        }
+        function handleOver(event) {
+            event.preventDefault();
+            document.querySelector(".example-dropzone").classList.add('border');
+        }
+        function eventBind(event) {
+            event.addEventListener('dragstart', handleDragStart, false);
+            event.addEventListener('dragend', handleDragEnd, false);
+            event.addEventListener('dragover', handleOver, false);
+            event.addEventListener('drop', handleDrop, false);
+        }
+
+        var items = document.querySelectorAll('#ul li');
+        [].forEach.call(items, function (item) {
+            eventBind(item);
+            item.id = (add += 1)
+        });
+
+
+    </script>
+</body>
+
+</html>
